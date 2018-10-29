@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
 
 
 def read_dataset(fname):
@@ -31,3 +32,8 @@ print('train dataset:{0}; test dataset:{1}'.format(x_train.shape,
                                                    x_test.shape))  # 查看数组信息
 
 
+clf = DecisionTreeClassifier()
+clf.fit(x_train, y_train)
+train_score = clf.score(x_train, y_train)
+test_score = clf.score(x_test, y_test)
+print('')
