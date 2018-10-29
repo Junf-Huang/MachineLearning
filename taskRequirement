@@ -1,0 +1,143 @@
+任务一：编写程序，把变量n的初始值设置为2018，然后把该变量的每位数字都提取出来并输出。
+如：n = 2018
+n的各位数字分别是2，0，1，8
+def method(value):
+    #   divmod()是内置函数，返回整商和余数组成的元组
+    result = []
+    while value:
+        value, r = divmod(value, 10)
+        result.append(r)
+    result.reverse()
+    return result
+
+print(method(2018))
+
+任务一：使用字符串存储一个英文句子“Life is short. I use python.”, 并输出该句子。
+str = "Life is short. I use python."
+print(str)
+
+任务二：自定义一个list, 如 L = [1,4,2, 7, 10, 5], 对L进行升序排序并输出。
+L = [1, 4, 2, 7, 10, 5]
+L.sort()
+print(L)
+
+任务三：定义一个字符串a = ‘12a45', 对a进行逆序输出
+a = '12a45'
+print(a[::-1])
+
+任务四：编写程序，输入直角三角形中两个直角表的长度，计算斜边的长度。
+import math
+a = int(input("input a: "))
+b = int(input("input b: "))
+print(math.hypot(a, b))
+
+任务六：编写程序，用户输入一个大于100的整数，输出其十位以上的数字。例如用户输入25681，则程序输出256。
+a = int(input("input a number: "))
+a = int(a/100)
+print(a)
+
+l-3
+
+任务一：编写程序，输入一个实数x，分别输出该数的百位数、十位数、个位数和小数部分。
+x = float(input("input a number: "))
+print(int(x / 100) % 10)
+print(int(x / 10) % 10)
+print(int(x % 10))
+print(x - int(x))
+
+任务二：编写程序， 随机生成一个字符串，将该字符串按逆序输出。
+import random
+import string
+salt = ''.join(random.sample(string.ascii_letters + string.digits, 8))
+print(salt)
+print(salt[::-1])
+ 
+任务三：编写程序，从键盘输入不在同一直线上的3个点的坐标值（x1，y1）、（x2，y2）和（x3，y3），分别计算由这3个点组成的三角形的三条边长A、B、C，并计算该三角形的面积。
+x1, y1 = map(int, input("input first coordinate: ").split(','))
+x2, y2 = map(int, input("input second coordinate: ").split(','))
+x3, y3 = map(int, input("input third coordinate: ").split(','))
+print((x1*y2 + x2*y3 + x3*y1 - x1*y3 - x2*y1 - x3*y2) / 2)
+
+任务四：输入三条边长，判断这三条边能否组成三角形。如果能组成三角形，则判断是否为直角三角形；如果是直角三角形，判断是否是等腰直角三角形。如果能组成三角形，则输出由这三条表组成的三角形的周长和面积。
+import math
+
+#   输入数组
+line = [int(n) for n in input().split()]
+
+line.sort()
+if line[0]+line[1] > line[2]:
+    if line[0] == math.hypot(line[1], line[2]):
+        print("It is right triangle.")
+        if line[0] == line[1] or line[1] == line[2] or line[0] == line[2]:
+            print("It is isosceles right triangle.")  
+    print("The perimeter is :", sum(line))
+    p = sum(line)/2
+    print("The area is :", math.sqrt(p*(p-line[0])*(p-line[1])*(p-line[2])))
+
+任务五：编写程序，判断闰年。从键盘输入年份，判断该年是否是闰年，并输出年份和是否是闰年的信息。
+year = int(input("输入一个年份: "))
+if (year % 4) == 0:
+    if (year % 100) == 0:
+        if (year % 400) == 0:
+            print("{0} 是闰年".format(year))   # 整百年能被400整除的是闰年
+        else:
+            print("{0} 不是闰年".format(year))
+    else:
+        print("{0} 是闰年".format(year))       # 非整百年能被4整除的为闰年
+else:
+    print("{0} 不是闰年".format(year))
+
+任务六：编写程序，输入一个整型数，计算该数的每位数字之和。
+a = int(input("input a number: "))
+print(sum(map(int, str(a))))
+
+任务七：自然数x（x<500）与338的乘积是y的平方，编写程序计算满足该条件的所有x及相应的y。
+import math
+
+x = 1 
+while x < 500: 
+    y = math.sqrt(x*338)
+    if y-int(y) == 0:
+        print("x, y:", x, y)
+    x = x+1
+
+任务八：编写程序，将乘法口诀表逆序输出，形成倒三角形式。
+for i in range(9, 0, -1):
+    for j in range(i, 0, -1):
+        print(str(i) + str("*") + str(j) + "=" + str(i*j), end="\t")
+    print()
+
+任务九：编程计算200~300之间的数，并且满足条件：3个数字之积为42，3个数字之和为12。
+from functools import reduce
+import operator
+
+n = 200
+while n < 301:
+    if reduce(operator.mul, map(int, str(n)), 1) == 42:
+        if sum(map(int, str(n))) == 12:
+            print(n)
+    n = n + 1
+
+任务十：编程计算T = 1-1/2+1/3-···+1/99-1/100的值。
+def fun(n):
+    if(n == 1):
+        return -1
+    else:
+        return (-1)*1/n-fun(n-1)
+
+
+print(fun(100))
+
+任务十一：编程输出100~1000之间的所有素数。
+l = []
+for n in range(100, 1000):
+    if 0 not in [n % i for i in range(2, n)]:
+        l.append(n)
+print(l)
+
+任务十二：百马百担问题-100匹马驮100担货物，其中大马驮3担货，中马驮2担货，两匹小马驮1担，编程计算大、中、小马各有多少匹？
+for a in range(33):
+    for b in range(50):
+        for c in range(100):
+            if a+b+c == 100 and 3*a+2*b+c/2 == 100:
+                print("大 中 小:", a, b, c)

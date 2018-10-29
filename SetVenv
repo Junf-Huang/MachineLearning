@@ -1,0 +1,56 @@
+创建虚拟环境
+python3 -m venv env 
+进入环境
+source Myenv/bin/activate
+退出环境
+deactivate
+
+程序计时
+import sys, os
+from time import clock
+start = clock()
+print "End At: " + str((clock()-start)*1000)
+
+#统计字符个数
+str=input("请输入一串字符:")
+resoult={}
+for i in str:
+    resoult[i]=str.count(i)
+print(resoult)
+
+#   matplolib需要python图形库
+sudo pacman -S tk
+    or
+ext install donjayamanne.jupyter
+add #%% to the top of file.
+
+numpy常用函数：
+    np.abs(x)、np.fabs(x) ： 计算数组各元素的绝对值
+    np.sqrt(x) ： 计算数组各元素的平方根
+    np.square(x) ： 计算数组各元素的平方
+
+随机数组比较：
+    # continous numbers
+    np.arange(start, end, step)
+
+    #生成3行2列的0-1随机数组
+    np.random.rand(3,2) 
+
+    # 返回一个样本，具有标准正态分布
+    randn(d0, d1) # d0行 d1列数组 
+
+    # 返回随机整数，范围区间为[low,high），包含low，不包含high 
+    randint(low[, high, account])
+
+matplolib:
+    数组与数组间，离散值对应点图形
+    data = {'a': np.arange(50), # 连续
+        'c': np.random.randint(0, 50, 50), # 随机
+        'd': np.random.randn(50)} # 随机正态
+data['b'] = data['a'] + 10 * np.random.randn(50)
+data['d'] = np.abs(data['d']) * 100
+# （x, y, color, pointSize, array)
+plt.scatter('a', 'b', c='c', s='d', data=data)
+plt.xlabel('entry a')
+plt.ylabel('entry b')
+plt.show()
