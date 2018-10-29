@@ -1,5 +1,5 @@
-import matplotlib.pyplot as plt 
-import numpy as np 
+import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
@@ -21,13 +21,13 @@ def read_dataset(fname):
 
 train = read_dataset('datasets/titanic/train.csv')
 print(train)
-
-y = train['Survived'].values
+a = train.values  # 不会获取第一列
 x = train.drop(['Survived'], axis=1).values  # axis=1表示横轴，方向从左到右；0表示纵轴，方向从上到
+y = train['Survived'].values
 
-print('x:', x)
-print('y:', y)
+x_train, x_test, y_train, y_test = train_test_split(
+    x, y, test_size=0.2)  # 测试样本占2成
+print('train dataset:{0}; test dataset:{1}'.format(x_train.shape,
+                                                   x_test.shape))  # 查看数组信息
 
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2)
-print('train dataset:{0}; test dataset:{1}'.format(x_train.shape, x_test.shape))
 

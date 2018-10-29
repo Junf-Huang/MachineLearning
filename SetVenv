@@ -5,6 +5,9 @@ source Myenv/bin/activate
 退出环境
 deactivate
 
+pip install flake8 yapf
+
+
 程序计时
 import sys, os
 from time import clock
