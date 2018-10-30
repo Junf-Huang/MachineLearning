@@ -1,39 +1,50 @@
 import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.tree import DecisionTreeClassifier
+
+n_dots = 200
+
+X = np.linspace(-2 * np.pi, 2 * np.pi, n_dots)
+Y = np.sin(X) + 0.2 * np.random.rand(n_dots) - 0.1
+X = X.reshape(-1, 1)
+Y = Y.reshape(-1, 1)
+
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.pipeline import Pipeline
 
 
-def read_dataset(fname):
-    # 指定第一列为行索引
-    data = pd.read_csv(fname, index_col=0)
-    # 丢弃无用数据
-    data.drop(['Name', 'Ticket', 'Cabin'], axis=1, inplace=True)
-    # 处理性别数据
-    data['Sex'] = (data['Sex'] == 'male').astype('int')
-    # 处理登船港口数据
-    labels = data['Embarked'].unique().tolist()
-    data['Embarked'] = data['Embarked'].apply(lambda n: labels.index(n))
-    # 处理缺失数据
-    data = data.fillna(0)
-    return data
+def polynomial_model(degree=1):
+    polynomial_features = PolynomialFeatures(degree=degree, include_bias=False)
+    linear_regression = LinearRegression(normalize=True)
+    pipeline = Pipeline([("polynomial_features", polynomial_features),
+                         ("linear_regression", linear_regression)])
+    return pipeline
 
 
-train = read_dataset('datasets/titanic/train.csv')
-print(train)
-a = train.values  # 不会获取第一列
-x = train.drop(['Survived'], axis=1).values  # axis=1表示横轴，方向从左到右；0表示纵轴，方向从上到
-y = train['Survived'].values
+from sklearn.metrics import mean_squared_error
 
-x_train, x_test, y_train, y_test = train_test_split(
-    x, y, test_size=0.2)  # 测试样本占2成
-print('train dataset:{0}; test dataset:{1}'.format(x_train.shape,
-                                                   x_test.shape))  # 查看数组信息
+degrees = [2, 3, 5, 10]
+results = []
+for d in degrees:
+    model = polynomial_model(degree=d)
+    model.fit(X, Y)
+    train_score = model.score(X, Y)
+    mse = mean_squared_error(Y, model.predict(X))
+    results.append({
+        "model": model,
+        "degree": d,
+        "score": train_score,
+        "mse": mse
+    })
+for r in results:
+    print("degree: {}; train score: {}; mean squared error: {}".format(
+        r["degree"], r["score"], r["mse"]))
 
-
-clf = DecisionTreeClassifier()
-clf.fit(x_train, y_train)
-train_score = clf.score(x_train, y_train)
-test_score = clf.score(x_test, y_test)
-print('')
+from matplotlib.figure import SubplotParams
+plt.figure(figsize=(12, 6), dpi=200, subplotpars=SubplotParams(hspace=0.3))
+for i, r in enumerate(results):
+    fig = plt.subplot(2, 2, i + 1)
+    plt.xlim(-8, 8)
+    plt.title("LinearRegression degree={}".format(r["degree"]))
+    plt.scatter(X, Y, s=5, c='b', alpha=0.5)
+    plt.plot(X, r["model"].predict(X), 'r-')
