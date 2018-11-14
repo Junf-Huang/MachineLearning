@@ -33,12 +33,12 @@ numpy常用函数：
     np.abs(x)、np.fabs(x) ： 计算数组各元素的绝对值
     np.sqrt(x) ： 计算数组各元素的平方根
     np.square(x) ： 计算数组各元素的平方
-    np.linspace(start, stop, num):   在指定的间隔内返回均匀间隔的数字
+    np.linspace(start, stop, num):   在指定的间隔内返回均匀间隔的数字,不能同时大于0或小于0
     reshape(1,-1):  -1表示未知, (行,列)
 
 随机数组比较：
     # continous numbers
-    np.arange(start, end, step)
+    np.arange(start, end, step) 比linspace好用
 
     #生成3行2列的0-1随机数组
     np.random.rand(3,2) 
