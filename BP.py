@@ -159,7 +159,7 @@ print("accuracy", accuracy)
 np.savetxt("w1.txt", TestNetwork.w1)
 np.savetxt("w2.txt", TestNetwork.w2)
 '''
-图片显示
+图片显示，得先修改loadImageSet()的im矩阵
 plt.title("label: "+ str(labels[1]))
 plt.imshow(imgs[1], cmap='gray')
 plt.show()
