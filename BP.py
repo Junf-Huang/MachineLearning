@@ -1,6 +1,7 @@
 import struct
 
 import numpy as np
+import matplotlib.pyplot as plt
 
 def loadLabelSet(fname):
     with open(fname, 'rb') as f1:
@@ -26,15 +27,15 @@ def loadImageSet(fname):
         width = head[2]
         height = head[3]
         #   图片的数量，宽度，高度
-        print(imgNum, " ", width, " ", height)
+        # print(imgNum, " ", width, " ", height)
         offset = struct.calcsize('>IIII')  # 定位到data开始的位置
 
         #   每一个784B为一张图片
         bits = imgNum * width * height  # data一共有60000*28*28个像素值
         bitsString = '>' + str(bits) + 'B'  # fmt格式：'>784B'
         imgs = struct.unpack_from(bitsString, buf, offset)
-        #   显示图像，三维数组(imgNum, with, height)
-        #   方便模型训练，二维数组(imgNum, with*height)
+        #   显示图像，二维数组(imgNum, with, height)
+        #   方便模型训练，一维数组(imgNum, with*height)
         im = np.reshape(imgs, (imgNum, width * height))
     return im
 
@@ -136,11 +137,14 @@ def sigmoid(z):
 
 
 labels = loadLabelSet('datasets/mnist/train-labels-idx1-ubyte')
-# print("labels", labels[:300])
+print("labels", labels[0])
 
 imgs = loadImageSet('datasets/mnist/train-images-idx3-ubyte')
-# print("imgs[0]", imgs[:300])
+print("imgs[0]", imgs[0])
 
+plt.title("label: "+ str(labels[0]))
+plt.imshow(imgs[0], cmap='gray')
+plt.show()
 
 TestNetwork = BPNetwork(784, 30, 10, 0.2)
 count = 10000
