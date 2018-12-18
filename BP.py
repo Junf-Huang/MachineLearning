@@ -1,6 +1,7 @@
 import struct
 
 import numpy as np
+import matplotlib.pyplot as plt
 
 def loadLabelSet(fname):
     with open(fname, 'rb') as f1:
@@ -33,8 +34,8 @@ def loadImageSet(fname):
         bits = imgNum * width * height  # data一共有60000*28*28个像素值
         bitsString = '>' + str(bits) + 'B'  # fmt格式：'>784B'
         imgs = struct.unpack_from(bitsString, buf, offset)
-        #   显示图像，三维数组(imgNum, with, height)
-        #   方便模型训练，二维数组(imgNum, with*height)
+        #   显示图像，二维数组(imgNum, with, height)
+        #   方便模型训练，一维数组(imgNum, with*height)
         im = np.reshape(imgs, (imgNum, width * height))
     return im
 
@@ -155,7 +156,7 @@ print("accuracy", accuracy)
 np.savetxt("w1.txt", TestNetwork.w1)
 np.savetxt("w2.txt", TestNetwork.w2)
 '''
-图片显示
+图片显示，得先修改loadImageSet()的im矩阵
 plt.title("label: "+ str(labels[1]))
 plt.imshow(imgs[1], cmap='gray')
 plt.show()
